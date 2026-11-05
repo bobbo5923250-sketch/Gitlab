@@ -1,0 +1,24 @@
+{
+  "model": "char-ngram + LogReg",
+  "candidates": {
+    "char-ngram + LogReg": {
+      "val_macro_f1": 0.6129,
+      "train_seconds": 31.2
+    },
+    "word (newmm) + LogReg": {
+      "val_macro_f1": 0.6107,
+      "train_seconds": 10.9
+    }
+  },
+  "test": {
+    "accuracy": 0.6776,
+    "macro_f1": 0.5909,
+    "per_class_f1": {
+      "neg": 0.7386,
+      "neu": 0.7193,
+      "pos": 0.5307,
+      "q": 0.375
+    },
+    "n_samples": 2674
+  }
+}

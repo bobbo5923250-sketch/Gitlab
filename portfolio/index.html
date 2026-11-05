@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Engineer Portfolio</title>
+    <meta name="description" content="Portfolio of an AI Engineer — LLM applications, RAG, ML pipelines." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t) document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <a href="#top" class="brand" id="brand"></a>
+        <nav class="nav-links">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle colour theme">◐</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero container">
+        <p class="eyebrow mono" id="hero-role"></p>
+        <h1 id="hero-name"></h1>
+        <p class="lead" id="hero-tagline"></p>
+        <div class="hero-actions" id="hero-actions"></div>
+        <ul class="stats" id="stats"></ul>
+      </section>
+
+      <section id="about" class="section container">
+        <h2 class="section-title"><span class="mono">01.</span> About</h2>
+        <div class="about" id="about-body"></div>
+      </section>
+
+      <section id="skills" class="section container">
+        <h2 class="section-title"><span class="mono">02.</span> Skills</h2>
+        <div class="skills-grid" id="skills-grid"></div>
+      </section>
+
+      <section id="projects" class="section container">
+        <h2 class="section-title"><span class="mono">03.</span> Projects</h2>
+        <div class="filters" id="filters" role="tablist"></div>
+        <div class="projects-grid" id="projects-grid"></div>
+      </section>
+
+      <section id="experience" class="section container">
+        <h2 class="section-title"><span class="mono">04.</span> Experience</h2>
+        <ol class="timeline" id="timeline"></ol>
+        <div class="edu-grid">
+          <div>
+            <h3 class="sub-title">Education</h3>
+            <ul class="plain-list" id="education"></ul>
+          </div>
+          <div>
+            <h3 class="sub-title">Certifications</h3>
+            <ul class="plain-list" id="certifications"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section container contact">
+        <h2 class="section-title"><span class="mono">05.</span> Contact</h2>
+        <p class="lead">Open to AI engineering roles and collaborations. The fastest way to reach me is email.</p>
+        <a class="btn btn-primary" id="contact-email"></a>
+        <ul class="socials" id="socials"></ul>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      <p id="footer-text"></p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
