@@ -1,1 +1,0 @@
-print("wisuttipong Sue-chayapak")
