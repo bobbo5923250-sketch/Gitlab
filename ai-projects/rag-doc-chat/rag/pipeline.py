@@ -12,7 +12,9 @@ from .store import VectorStore
 RESTART = object()  # yielded by the stream when a drifted answer is discarded and regenerated
 
 EMBED_MODEL = "bge-m3"  # multilingual embeddings, works well for Thai + English
-CHAT_MODEL = "qwen2.5:7b"
+# Typhoon 2 (Llama 3.1 fine-tuned for Thai by SCB 10X). In testing, qwen2.5:7b answered
+# 2/10 Thai questions over English documents partly in Chinese; Typhoon answered 0/20.
+CHAT_MODEL = "scb10x/llama3.1-typhoon2-8b-instruct"
 
 SYSTEM_PROMPT = """You are a helpful assistant that answers questions using ONLY the provided context.
 - Cite sources inline like [1], [2] that match the numbered context blocks.

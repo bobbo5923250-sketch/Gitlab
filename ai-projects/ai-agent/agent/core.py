@@ -17,11 +17,13 @@ import ollama
 
 from .tools import TOOLS
 
-MODEL = "qwen2.5:7b"
+# Typhoon 2 (Llama 3.1 fine-tuned for Thai by SCB 10X): reliable Thai answers and
+# native tool calling. qwen2.5:7b also works but sometimes replies in Chinese.
+MODEL = "scb10x/llama3.1-typhoon2-8b-instruct"
 
 SYSTEM_PROMPT = """You are a helpful research assistant with access to tools.
 - Use tools whenever they help you give an accurate answer; never guess numbers, dates or facts you can look up.
-- Always use the calculator for arithmetic.
+- Always use the calculator for arithmetic, and analyze_csv for totals or averages over a CSV file.
 - When you use web results, mention the source link.
 - When the user writes in Thai, reply in Thai. Never reply in Chinese.
 - Format dates for people (e.g. "6 November 2026"), not as raw ISO strings."""

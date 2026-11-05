@@ -19,14 +19,29 @@ question ─► LLM ─┬─► answer ─────────────�
 | `web_search` | DuckDuckGo search, top 5 results | Errors are returned to the model, not raised |
 | `get_current_datetime` | Current local time | — |
 | `list_files` / `read_file` | Read files in `workspace/` | Blocks path traversal (`../`) |
+| `analyze_csv` | Group-by + sum/mean/count/max/min over a CSV | Errors list the real column names |
 
 Adding a tool is just writing a Python function with a docstring and adding it to `TOOLS` in [`agent/tools.py`](agent/tools.py).
+
+## What I learned while testing
+
+I ran a fixed set of Thai and English questions against two local models and fixed what broke:
+
+| Problem found | Fix |
+| --- | --- |
+| `qwen2.5:7b` answered some questions in Chinese or English instead of Thai | Default model switched to **Typhoon 2** (Thai-tuned Llama 3.1); the answer language is detected and stated explicitly in the prompt |
+| The model sometimes wrote a tool call as JSON text instead of calling the tool | `parse_text_tool_call` recognises it and runs the tool anyway; unknown tool names get an error listing the real tools |
+| Both models added up CSV rows wrongly ("January" instead of March) | Added `analyze_csv` so the model never does the arithmetic itself |
+| Asked "which month is highest", the model chose `operation="max"` instead of `"sum"` | Rewrote the tool docstring — it is the model's only documentation |
+| Wrong column names or `"15% of 2450"` sent to a tool | Tools return clear error messages, and the model corrects itself on the next step |
+
+Final check: 18/18 correct answers, 0 in the wrong language.
 
 ## Run it
 
 ```bash
 # 1. Install Ollama (https://ollama.com) and pull a model with tool-calling support
-ollama pull qwen2.5:7b
+ollama pull scb10x/llama3.1-typhoon2-8b-instruct
 
 # 2. Install dependencies
 python -m venv .venv

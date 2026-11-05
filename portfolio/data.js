@@ -23,7 +23,7 @@ window.PORTFOLIO = {
   stats: [
     { value: "4", label: "End-to-end AI projects" },
     { value: "100%", label: "Runs locally on free models" },
-    { value: "19", label: "Automated tests" },
+    { value: "24", label: "Automated tests" },
   ],
 
   skills: [
@@ -53,7 +53,7 @@ window.PORTFOLIO = {
       highlights: [
         "Sentence-aware chunking with overlap; multilingual bge-m3 embeddings (Thai + English)",
         "NumPy cosine vector store with save/load — no external database",
-        "Similarity threshold + grounded prompt to reduce hallucinations; streaming Streamlit UI",
+        "Measured and fixed Thai→Chinese language drift: 2/10 → 0/20 by switching to the Thai-tuned Typhoon 2 model",
       ],
       tags: ["LLM", "RAG", "Ollama", "Streamlit"],
       repo: "https://github.com/bobbo5923250-sketch/rag-doc-chat",

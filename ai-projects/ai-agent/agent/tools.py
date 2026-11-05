@@ -5,6 +5,8 @@ Google-style docstring, so the docstrings below are what the model "sees".
 """
 
 import ast
+import csv
+import io
 import operator
 from datetime import datetime
 from pathlib import Path
@@ -111,4 +113,49 @@ def read_file(filename: str) -> str:
     return path.read_text(encoding="utf-8", errors="replace")[:8000]
 
 
-TOOLS = [calculator, web_search, get_current_datetime, list_files, read_file]
+def analyze_csv(filename: str, group_by: str, value_column: str, operation: str = "sum") -> str:
+    """Group a CSV file in the workspace by one column and aggregate another column.
+    Use this instead of adding up numbers yourself. Results are sorted from largest
+    to smallest, so to find "which group has the highest total" use operation="sum"
+    and read the first line.
+
+    Args:
+        filename: CSV file name inside the workspace, e.g. "sales.csv".
+        group_by: Column to group by, e.g. "month".
+        value_column: Numeric column to aggregate, e.g. "revenue_thb".
+        operation: "sum" (total per group, the usual choice), "mean", "count",
+            or "max"/"min" (largest/smallest single row value within each group).
+
+    Returns:
+        One line per group, sorted from largest to smallest.
+    """
+    content = read_file(filename)
+    if content.startswith("Error"):
+        return content
+    rows = list(csv.DictReader(io.StringIO(content)))
+    if not rows or group_by not in rows[0] or value_column not in rows[0]:
+        columns = ", ".join(rows[0]) if rows else "none"
+        return f"Error: unknown column. Available columns: {columns}"
+
+    groups: dict[str, list[float]] = {}
+    for row in rows:
+        try:
+            groups.setdefault(row[group_by], []).append(float(row[value_column]))
+        except ValueError:
+            continue  # skip non-numeric cells
+
+    aggregate = {
+        "sum": sum,
+        "mean": lambda v: sum(v) / len(v),
+        "count": len,
+        "max": max,
+        "min": min,
+    }.get(operation)
+    if aggregate is None:
+        return "Error: operation must be one of sum, mean, count, max, min"
+
+    totals = sorted(((k, aggregate(v)) for k, v in groups.items()), key=lambda kv: kv[1], reverse=True)
+    return "\n".join(f"{k}: {v:,.2f}" for k, v in totals)
+
+
+TOOLS = [calculator, web_search, get_current_datetime, list_files, read_file, analyze_csv]
